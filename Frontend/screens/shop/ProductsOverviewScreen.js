@@ -9,7 +9,7 @@ import {
   StyleSheet
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
- import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+//  import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import HeaderButton from '../../components/UI/HeaderButton';
 import ProductItem from '../../components/shop/ProductItem';
@@ -125,7 +125,12 @@ export const screenOptions = navData => {
   return {
     headerTitle: 'All Products',
      headerLeft: () => (
-       <HeaderButtons HeaderButtonComponent={HeaderButton}>
+      <Button
+      onPress={() => alert('This is a button!')}
+      title="Info"
+      color="#fff"
+    />
+      /*  <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
           title="Menu"
            iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
@@ -133,18 +138,23 @@ export const screenOptions = navData => {
             navData.navigation.toggleDrawer();
            }}
          />
-       </HeaderButtons>
+       </HeaderButtons> */
     ), 
     headerRight: () => (
-      <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item
-          title="Cart"
-          iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
-          onPress={() => {
-            navData.navigation.navigate('Cart');
-          }}
-        />
-      </HeaderButtons>
+      <Button
+      onPress={() => alert('This is a button!')}
+      title="Info"
+      color="#fff"
+    />
+      // <HeaderButtons HeaderButtonComponent={HeaderButton}>
+      //   <Item
+      //     title="Cart"
+      //     iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+      //     onPress={() => {
+      //       navData.navigation.navigate('Cart');
+      //     }}
+      //   />
+      // </HeaderButtons>
     )
   };
 };
