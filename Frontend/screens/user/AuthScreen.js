@@ -71,7 +71,8 @@ const AuthScreen = props => {
         formState.inputValues.email,
         formState.inputValues.password
       );
-    } else {
+    } 
+    else {
       action = authActions.login(
         formState.inputValues.email,
         formState.inputValues.password
@@ -80,8 +81,11 @@ const AuthScreen = props => {
     setError(null);
     setIsLoading(true);
     try {
+      console.log("props",props);
+      console.log("action",action);
+     // props.navigation.navigate('Shop');
       await dispatch(action);
-      // props.navigation.navigate('Shop');
+      //props.navigation.navigate('Shop');
     } catch (err) {
       setError(err.message);
       setIsLoading(false);

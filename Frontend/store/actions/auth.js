@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import apicall from '../../api/tracker'
 // export const SIGNUP = 'SIGNUP';
 // export const LOGIN = 'LOGIN';
 export const AUTHENTICATE = 'AUTHENTICATE';
@@ -19,24 +19,11 @@ export const authenticate = (userId, token, expiryTime) => {
   };
 };
 
-export const signup = (email, password) => {
-  return async dispatch => {
-    const response = await fetch(
-      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAwgME943HeTkyX9QJak260PNbYZfQI58Q',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-          returnSecureToken: true
-        })
-      }
-    );
-
-    if (!response.ok) {
+export const signup = (email, password) => {  
+  return async dispatch => {  
+    const response = await apicall.post("/signup", { email, password });
+    console.log("response",response);
+    if (!response.data.token) {
       const errorResData = await response.json();
       const errorId = errorResData.error.message;
       let message = 'Something went wrong!';
@@ -44,23 +31,25 @@ export const signup = (email, password) => {
         message = 'This email exists already!';
       }
       throw new Error(message);
-    }
-
-    const resData = await response.json();
-    console.log(resData);
+    }  
+    console.log("resData",response.data);
     dispatch(
       authenticate(
-        resData.localId,
-        resData.idToken,
-        parseInt(resData.expiresIn) * 1000
+        response.data.userId,
+        response.data.token,
+        parseInt(10) * 1000
       )
     );
     const expirationDate = new Date(
-      new Date().getTime() + parseInt(resData.expiresIn) * 1000
+      new Date().getTime() + parseInt(10) * 1000
     );
-    saveDataToStorage(resData.idToken, resData.localId, expirationDate);
+    saveDataToStorage(response.data.token, response.data.userId, expirationDate);
   };
 };
+
+
+
+
 
 export const login = (email, password) => {
   return async dispatch => {
